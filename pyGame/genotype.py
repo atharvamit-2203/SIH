@@ -7,7 +7,7 @@ pygame.display.set_caption("Flower Genetics – Unique Parents & Incomplete Domi
 font = pygame.font.SysFont(None, 28)
 clock = pygame.time.Clock()
 
-# ----------------- Genetics -----------------
+#Genetics
 def gametes(geno):
     # geno like "Rr Gg"
     a = geno.split()
@@ -40,7 +40,7 @@ all_leaf  = ["GG","Gg","gG","gg"]
 def random_genotype():
     return f"{random.choice(all_petal)} {random.choice(all_leaf)}"
 
-# ----------------- Round Generation -----------------
+#Round Generation
 def unique_round():
     """
     Returns:
@@ -81,7 +81,7 @@ def unique_round():
         if len(parents) == 4:
             return child, list(parents)
 
-# ----------------- Drawing -----------------
+#Drawing
 def draw_flower(center, petal_color, leaf_color, size=60):
     cx, cy = center
     for i in range(6):
@@ -108,7 +108,7 @@ def petal_rgb(name):
 def leaf_rgb(name):
     return (0,180,0) if name=="Green" else (190,190,50)
 
-# ----------------- Game State -----------------
+#Game State
 score = 0
 time_limit = 80
 start_time = time.time()
@@ -125,7 +125,7 @@ selected = []
 positions = [(200,400),(400,400),(600,400),(800,400)]
 game_over = False
 
-# ----------------- Main Loop -----------------
+#Main Loop
 while True:
     dt = clock.tick(30)
     screen.fill((60,140,60))
@@ -184,3 +184,4 @@ while True:
                 (WIDTH-150,20))
 
     pygame.display.flip()
+
