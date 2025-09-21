@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'maths_games.dart';
 
-// Subjects page (formerly HomeScreen)
+// Subjects page
 class SubjectsPage extends StatelessWidget {
   const SubjectsPage({super.key});
 
@@ -15,8 +16,26 @@ class SubjectsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = isDarkMode ? Colors.white : Color(0xFF062863);
+    final secondaryColor = isDarkMode ? Color(0xFF62D9FF) : Color(0xFF238FFF);
+    final backgroundColor = isDarkMode ? Color(0xFF062863) : Color(0xFFD0F4FF);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFD0F4FF),
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        backgroundColor: secondaryColor,
+        elevation: 4,
+        iconTheme: IconThemeData(color: primaryColor),
+        title: Text(
+          "Subjects",
+          style: TextStyle(
+            color: primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           // Decorative background circles
@@ -29,23 +48,23 @@ class SubjectsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 60),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: Text(
                   'Welcome to StudyFun!',
                   style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF062863),
+                    color: primaryColor,
                     letterSpacing: 1.4,
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 6),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 6),
                 child: Text(
                   'Let\'s play, learn and win!',
-                  style: TextStyle(fontSize: 20, color: Color(0xFF238FFF)),
+                  style: TextStyle(fontSize: 20, color: secondaryColor),
                 ),
               ),
               const SizedBox(height: 32),
@@ -59,6 +78,14 @@ class SubjectsPage extends StatelessWidget {
                     return SubjectCard(
                       label: s['label']!,
                       emoji: s['emoji']!,
+                      onTap: s['label'] == 'Maths'
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MathsGamesPage()),
+                              );
+                            }
+                          : null,
                     );
                   }).toList(),
                 ),
@@ -92,25 +119,35 @@ class SubjectsPage extends StatelessWidget {
 class SubjectCard extends StatelessWidget {
   final String label;
   final String emoji;
+  final VoidCallback? onTap;
 
-  const SubjectCard({super.key, required this.label, required this.emoji});
+  const SubjectCard({super.key, required this.label, required this.emoji, this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDarkMode ? Color(0xFF062863) : Color(0xFF062863);
+
     return Material(
       elevation: 12,
       borderRadius: BorderRadius.circular(22),
-      shadowColor: const Color(0xFF9EE7FF),
+      shadowColor: isDarkMode ? Color(0xFF238FFF) : Color(0xFF9EE7FF),
       child: InkWell(
         borderRadius: BorderRadius.circular(22),
-        onTap: () {},
+        onTap: onTap,
         child: Ink(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF81F0FF), Color(0xFFC7EFFE)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            gradient: isDarkMode
+                ? const LinearGradient(
+                    colors: [Color(0xFF238FFF), Color(0xFF62D9FF)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : const LinearGradient(
+                    colors: [Color(0xFF81F0FF), Color(0xFFC7EFFE)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
             borderRadius: BorderRadius.circular(22),
           ),
           child: Center(
@@ -121,7 +158,7 @@ class SubjectCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   label,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Color(0xFF062863)),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: textColor),
                 ),
               ],
             ),

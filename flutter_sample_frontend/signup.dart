@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'class_page.dart';
-import 'signup.dart';
+import 'login.dart';
 
-class LoginPage extends StatelessWidget {
+class SignupPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "Welcome Back!",
+                "Join the Fun!",
                 style: TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.bold,
@@ -36,7 +37,7 @@ class LoginPage extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                "Login to continue your adventure.",
+                "Create an account to start your adventure.",
                 style: TextStyle(
                   fontSize: 18,
                   color: secondaryColor,
@@ -74,6 +75,22 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              TextField(
+                controller: confirmPasswordController,
+                style: TextStyle(color: primaryColor),
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: "Confirm Password",
+                  labelStyle: TextStyle(color: primaryColor.withOpacity(0.7)),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(isDarkMode ? 0.2 : 0.8),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
@@ -88,7 +105,7 @@ class LoginPage extends StatelessWidget {
                   backgroundColor: Color(0xFF62D9FF),
                 ),
                 child: Text(
-                  "Log In",
+                  "Sign Up",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -99,13 +116,10 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 20),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignupPage()),
-                  );
+                  Navigator.pop(context); // Go back to login page
                 },
                 child: Text(
-                  "Don't have an account? Sign Up",
+                  "Already have an account? Login",
                   style: TextStyle(
                     color: primaryColor,
                     decoration: TextDecoration.underline,
