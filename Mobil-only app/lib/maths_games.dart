@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
+import 'equation_shooter.dart'; // Import the new game file
 
 class MathsGamesPage extends StatelessWidget {
   final List<String> mathsGames = [
-    "Addition Adventure",
+    "Equation Shooter", // Updated game title
     "Subtraction Sprint",
     "Multiplication Mayhem",
     "Division Dash",
@@ -55,19 +56,27 @@ class MathsGamesPage extends StatelessWidget {
                   return GameCard(
                     title: mathsGames[index],
                     emoji: _getEmojiForGame(mathsGames[index]),
-                    onTap: () async {
-                      // Dummy score for demonstration
-                      final dummyScore = {
-                        'user_id': 1, // This should be a dynamic user ID
-                        'game_name': mathsGames[index],
-                        'score': (index + 1) * 100,
-                      };
-                      await DatabaseHelper().insertScore(dummyScore);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${mathsGames[index]} score saved!')),
-                      );
-                    },
+                    onTap: mathsGames[index] == 'Equation Shooter'
+                        ? () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EquationShooterGameWidget(),
+                              ),
+                            );
+                          }
+                        : () {
+                            // Dummy score-saving for other games
+                            final dummyScore = {
+                              'user_id': 1,
+                              'game_name': mathsGames[index],
+                              'score': (index + 1) * 100,
+                            };
+                            DatabaseHelper().insertScore(dummyScore);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('${mathsGames[index]} score saved!')),
+                            );
+                          },
                   );
                 },
               ),
@@ -80,8 +89,8 @@ class MathsGamesPage extends StatelessWidget {
 
   String _getEmojiForGame(String gameTitle) {
     switch (gameTitle) {
-      case "Addition Adventure":
-        return "➕";
+      case "Equation Shooter":
+        return "🔫";
       case "Subtraction Sprint":
         return "➖";
       case "Multiplication Mayhem":
