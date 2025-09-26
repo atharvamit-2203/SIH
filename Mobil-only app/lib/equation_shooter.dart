@@ -5,7 +5,6 @@ import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'database_helper.dart';
-import 'maths_games.dart';
 
 // The Flutter widget that hosts the Flame game and the UI
 class EquationShooterGameWidget extends StatefulWidget {
@@ -326,7 +325,7 @@ class EquationShooterGame extends FlameGame {
   late EquationComponent currentEquation;
   
   final _random = Random();
-  final double missPoint = 0.5; // Miss when equation reaches half of the screen height
+  final double missPoint = 0.6; // Miss when equation goes beyond 60% of screen height
   final double targetY = 0.2; // Spawn point for the equation
 
   EquationShooterGame({
@@ -350,6 +349,8 @@ class EquationShooterGame extends FlameGame {
     
     add(scoreText);
     add(levelText);
+    
+    spawnEquation();
   }
   
   void resetGame() {
@@ -364,7 +365,6 @@ class EquationShooterGame extends FlameGame {
     // Remove existing equations
     removeAll(children.whereType<EquationComponent>());
     
-    // Only spawn the first equation after the game has been reset
     spawnEquation();
   }
   
@@ -496,16 +496,17 @@ class EquationComponent extends PositionComponent {
     final paint = BasicPalette.blue.paint()
       ..style = PaintingStyle.fill;
     
+    // Draw background rectangle that is slightly larger
     final rect = size.toRect();
     final paddedRect = Rect.fromCenter(
       center: rect.center,
       width: textPainter.width + 20,
       height: textPainter.height + 10,
     );
-    canvas.drawRRect(RRect.fromRectAndRadius(paddedRect, Radius.circular(10)), paint);
+    canvas.drawRect(paddedRect, paint);
     
-    final textX = (rect.width - textPainter.width) / 2;
-    final textY = (rect.height - textPainter.height) / 2;
+    final textX = (size.x - textPainter.width) / 2;
+    final textY = (size.y - textPainter.height) / 2;
     textPainter.paint(canvas, Offset(textX, textY));
   }
 }
