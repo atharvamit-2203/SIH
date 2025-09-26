@@ -1,0 +1,5 @@
+- Create a new Flutter App
+- Place all the files in the lib folder
+- replace contents of the pubspec.yaml
+- it should work now
+# This is mobile-only. Sqflite is made for phones only while sqlite is for web
